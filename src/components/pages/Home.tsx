@@ -74,7 +74,6 @@ const Footer = styled.div`
     line-height: normal;
     letter-spacing: 1.6px;
     margin: 0;
-    color: ${(props) => props.theme.colors.text};
   }
 `;
 

@@ -1,4 +1,5 @@
 export const light = {
+  name: 'light',
   colors: {
     background: '#fffafa',
     text: '#4b4b4b',
@@ -7,6 +8,7 @@ export const light = {
 };
 
 export const dark = {
+  name: 'dark',
   colors: {
     background: '#4b4b4b',
     text: '#fffafa',
