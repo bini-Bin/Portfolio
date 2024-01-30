@@ -6,6 +6,7 @@ import { light, dark } from 'styles/Theme';
 import Home from 'components/pages/Home';
 import { ReactComponent as CursorImg } from 'assets/images/cursor.svg';
 import { ReactComponent as FloatingImg } from 'assets/images/floating.svg';
+import NotSupport from 'components/pages/NotSupport';
 
 const App = () => {
   const { theme } = useThemeStore();
@@ -57,21 +58,18 @@ const App = () => {
           y: trailingFirst.y + 16,
           transition: { type: 'spring', mass: 1 },
         }}
-      ></Trailing>
+      />
       <Trailing
         animate={{
           x: trailingSecond.x + 24,
           y: trailingSecond.y + 24,
           transition: { type: 'spring', mass: 1.5 },
         }}
-      ></Trailing>
-      <Main>
-        {isWidthEnough ? (
-          <Home />
-        ) : (
-          <div>Sorry, this app is not available on mobile devices.</div>
-        )}
-      </Main>
+      />
+      <Main>{isWidthEnough ? <Home /> : <NotSupport />}</Main>
+      <Footer>
+        <h1>@ binibin.des</h1>
+      </Footer>
       <Floating>
         <FloatingImg stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'} />
       </Floating>
@@ -90,9 +88,9 @@ const Trailing = styled(motion.div)`
   width: 8px;
   height: 8px;
   border-radius: 8px;
+  border: 1px solid ${(props) => props.theme.colors.background};
   background-color: ${(props) => props.theme.colors.text};
   pointer-events: none;
-  transition: background-color 0.5s ease;
   z-index: 998;
 `;
 
@@ -105,6 +103,29 @@ const Main = styled.div`
     background-color 0.5s ease,
     color 0.5s ease;
   cursor: none;
+`;
+
+const Footer = styled.div`
+  width: 100%;
+  height: 64px;
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  padding-top: 16px;
+
+  h1 {
+    color: ${(props) => props.theme.colors.text};
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.6px;
+    margin: 0;
+    transition: color 0.5s ease;
+  }
 `;
 
 const Floating = styled.div`

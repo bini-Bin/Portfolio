@@ -26,9 +26,6 @@ const Home = () => {
           />
         </Row>
       </Column>
-      <Footer>
-        <h1>@ binibin.des</h1>
-      </Footer>
     </>
   );
 };
@@ -56,25 +53,6 @@ const DisplayLarge = styled.h1`
   line-height: normal;
   letter-spacing: 9.6px;
   margin: 0;
-`;
-
-const Footer = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 48px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  h1 {
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 1.6px;
-    margin: 0;
-  }
 `;
 
 export default Home;
