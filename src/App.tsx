@@ -7,6 +7,8 @@ import Home from 'components/pages/Home';
 import { ReactComponent as CursorImg } from 'assets/images/cursor.svg';
 import { ReactComponent as FloatingImg } from 'assets/images/floating.svg';
 import NotSupport from 'components/pages/NotSupport';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import NotFound from 'components/pages/NotFound';
 
 const App = () => {
   const { theme } = useThemeStore();
@@ -16,7 +18,9 @@ const App = () => {
   const [trailingFirst, setTrailingFirst] = React.useState({ x: 0, y: 0 });
   const [trailingSecond, setTrailingSecond] = React.useState({ x: 0, y: 0 });
 
-  const [isWidthEnough, setIsWidthEnough] = React.useState(true);
+  const [isWidthEnough, setIsWidthEnough] = React.useState(
+    window.innerWidth > 768,
+  );
 
   //disable app when window width is less than 768px
   useEffect(() => {
@@ -39,41 +43,52 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <Cursor
-        animate={{
-          x: cursor.x,
-          y: cursor.y,
-          transition: { type: 'just' },
-        }}
-      >
-        <CursorImg
-          fill={theme === 'light' ? '#4b4b4b' : '#fffafa'}
-          stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'}
+    <BrowserRouter>
+      <ThemeProvider theme={themeMode}>
+        <Cursor
+          animate={{
+            x: cursor.x,
+            y: cursor.y,
+            transition: { type: 'just' },
+          }}
+        >
+          <CursorImg
+            fill={theme === 'light' ? '#4b4b4b' : '#fffafa'}
+            stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'}
+          />
+        </Cursor>
+        <Trailing
+          animate={{
+            x: trailingFirst.x + 16,
+            y: trailingFirst.y + 16,
+            transition: { type: 'spring', mass: 1 },
+          }}
         />
-      </Cursor>
-      <Trailing
-        animate={{
-          x: trailingFirst.x + 16,
-          y: trailingFirst.y + 16,
-          transition: { type: 'spring', mass: 1 },
-        }}
-      />
-      <Trailing
-        animate={{
-          x: trailingSecond.x + 24,
-          y: trailingSecond.y + 24,
-          transition: { type: 'spring', mass: 1.5 },
-        }}
-      />
-      <Main>{isWidthEnough ? <Home /> : <NotSupport />}</Main>
-      <Footer>
-        <h1>@ binibin.des</h1>
-      </Footer>
-      <Floating>
-        <FloatingImg stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'} />
-      </Floating>
-    </ThemeProvider>
+        <Trailing
+          animate={{
+            x: trailingSecond.x + 24,
+            y: trailingSecond.y + 24,
+            transition: { type: 'spring', mass: 1.5 },
+          }}
+        />
+        <Main>
+          {isWidthEnough ? (
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          ) : (
+            <NotSupport />
+          )}
+        </Main>
+        <Footer>
+          <h1>@ binibin.des</h1>
+        </Footer>
+        <Floating>
+          <FloatingImg stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'} />
+        </Floating>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 
