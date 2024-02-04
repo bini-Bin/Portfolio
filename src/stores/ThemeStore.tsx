@@ -5,7 +5,7 @@ type ThemeStore = {
   toggleTheme: () => void;
 };
 
-const useThemeStore = create<ThemeStore>()((set) => ({
+const useThemeStore = create<ThemeStore>((set) => ({
   theme: 'light',
   toggleTheme: () =>
     set((state: { theme: string }) => ({

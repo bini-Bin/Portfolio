@@ -1,19 +1,15 @@
 import useThemeStore from 'stores/ThemeStore';
-import styled, { ThemeProvider } from 'styled-components';
-import { light, dark } from 'styles/Theme';
+import styled from 'styled-components';
 import { ReactComponent as Sun } from 'assets/images/sun.svg';
 import { ReactComponent as Moon } from 'assets/images/moon.svg';
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useThemeStore();
-  const themeMode = theme === 'light' ? light : dark;
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <Container onClick={() => toggleTheme()}>
-        <Circle>{theme === 'light' ? <Sun /> : <Moon />}</Circle>
-      </Container>
-    </ThemeProvider>
+    <Container onClick={() => toggleTheme()}>
+      <Circle>{theme === 'light' ? <Sun /> : <Moon />}</Circle>
+    </Container>
   );
 };
 

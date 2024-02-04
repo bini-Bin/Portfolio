@@ -1,14 +1,29 @@
+import { Link } from 'react-router-dom';
+import useThemeStore from 'stores/ThemeStore';
 import styled from 'styled-components';
+import { dark, light } from 'styles/Theme';
 
 type TextButtonProps = {
   text: string;
-  onClick: () => void;
+  link: string;
 };
 
-const TextButton = ({ text, onClick }: TextButtonProps) => {
+const TextButton = ({ text, link }: TextButtonProps) => {
+  const { theme } = useThemeStore();
+  const themeMode = theme === 'light' ? light : dark;
+
   return (
     <TextStroke>
-      <Text onClick={onClick}>{text}</Text>
+      <Text
+        to={link}
+        style={{
+          WebkitTextStrokeWidth: '2px',
+          WebkitTextStrokeColor: themeMode.colors.text,
+          cursor: 'none',
+        }}
+      >
+        {text}
+      </Text>
     </TextStroke>
   );
 };
@@ -32,17 +47,10 @@ const TextStroke = styled.div`
   }
 `;
 
-const Text = styled.h1`
-  font-size: 64px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 6.4px;
-  text-transform: uppercase;
-  margin: 0;
+const Text = styled(Link)`
   color: ${(props) => props.theme.colors.background};
-  z-index: 1;
   transition: color 0.5s ease;
+  text-decoration: none;
 `;
 
 export default TextButton;

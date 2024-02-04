@@ -9,9 +9,14 @@ import { ReactComponent as FloatingImg } from 'assets/images/floating.svg';
 import NotSupport from 'components/pages/NotSupport';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NotFound from 'components/pages/NotFound';
+import About from 'components/pages/About';
+import Work from 'components/pages/Work';
+import ContactModal from 'components/pages/ContactModal';
+import useContactModalStore from 'stores/ContactModalStore';
 
 const App = () => {
   const { theme } = useThemeStore();
+  const { isOpen, open } = useContactModalStore();
   const themeMode = theme === 'light' ? light : dark;
 
   const [cursor, setCursor] = React.useState({ x: 0, y: 0 });
@@ -21,7 +26,6 @@ const App = () => {
   const [isWidthEnough, setIsWidthEnough] = React.useState(
     window.innerWidth > 768,
   );
-
   //disable app when window width is less than 768px
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -75,18 +79,22 @@ const App = () => {
           {isWidthEnough ? (
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/work" element={<Work />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           ) : (
             <NotSupport />
           )}
         </Main>
-        <Footer>
-          <h1>@ binibin.des</h1>
-        </Footer>
-        <Floating>
+        <Floating
+          onClick={() => {
+            open();
+          }}
+        >
           <FloatingImg stroke={theme === 'light' ? '#fffafa' : '#4b4b4b'} />
         </Floating>
+        {isOpen && <ContactModal />}
       </ThemeProvider>
     </BrowserRouter>
   );
@@ -120,29 +128,6 @@ const Main = styled.div`
   cursor: none;
 `;
 
-const Footer = styled.div`
-  width: 100%;
-  height: 64px;
-  position: fixed;
-  bottom: 0px;
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: center;
-  padding-top: 16px;
-
-  h1 {
-    color: ${(props) => props.theme.colors.text};
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 1.6px;
-    margin: 0;
-    transition: color 0.5s ease;
-  }
-`;
-
 const Floating = styled.div`
   width: 64px;
   height: 64px;
@@ -160,4 +145,5 @@ const Floating = styled.div`
     box-shadow 0.5s ease;
   cursor: none;
 `;
+
 export default App;
